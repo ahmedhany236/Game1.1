@@ -9,9 +9,7 @@ import game.engine.dataloader.DataLoader;
 import game.engine.lanes.Lane;
 public class Battle {
 	private final static int[][] PHASES_APPROACHING_TITANS = {
-	        { 1, 1, 1, 2, 1, 3, 4 },
-	        { 2, 2, 2, 1, 3, 3, 4 },
-	        { 4, 4, 4, 4, 4, 4, 4 } 
+	        {1,1,1,2,1,3,4 },{2,2,2,1,3,3,4 },{4,4,4,4,4,4,4} 
 	};
 						
 	private static final int WALL_BASE_HEALTH = 10000;
@@ -110,4 +108,5 @@ public class Battle {
 		return originalLanes;
 	}
 	
+	//test hassan
 }

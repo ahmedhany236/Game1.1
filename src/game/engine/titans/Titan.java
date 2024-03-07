@@ -65,5 +65,4 @@ public abstract class Titan implements Comparable<Titan> ,Attackee,Attacker,Mobi
 }
 
 
-//hihi
 
