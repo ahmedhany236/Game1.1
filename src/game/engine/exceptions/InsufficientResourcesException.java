@@ -5,19 +5,21 @@ public class InsufficientResourcesException extends GameActionException{
 	private int resourcesProvided ; //r,w
 	
 	public InsufficientResourcesException(int resourcesProvided) {
-		super(MSG + resourcesProvided);
+		super(MSG + "" + resourcesProvided);
 		this.resourcesProvided = resourcesProvided;
 	}
 	public InsufficientResourcesException(String message, int resourcesProvided) {
 		super(message);
-		System.out.println(message);
 		this.resourcesProvided = resourcesProvided;
 	}
 	public int getResourcesProvided() {
 		return resourcesProvided;
 	}
 	public void setResourcesProvided(int resourcesProvided) {
-		this.resourcesProvided = resourcesProvided;
+		if (resourcesProvided < 0)
+			this.resourcesProvided = 0 ;
+		else 
+			this.resourcesProvided = resourcesProvided;
 	}
 	
 }

@@ -35,13 +35,19 @@ public abstract class Titan implements Comparable<Titan> ,Attackee,Attacker,Mobi
 		return distanceFromBase;
 	}
 	public void setDistance(int distanceFromBase) {
-		this.distanceFromBase = distanceFromBase;
+		if (distanceFromBase < 0)
+			this.distanceFromBase = 0;
+		else
+			this.distanceFromBase = distanceFromBase;
 	}
 	public int getSpeed() {
 		return speed;
 	}
 	public void setSpeed(int speed) {
-		this.speed = speed;
+		if (speed < 0)
+			this.speed =0;
+		else
+			this.speed = speed;
 	}
 	public int getBaseHealth() {
 		return baseHealth;

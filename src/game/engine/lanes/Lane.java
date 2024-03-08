@@ -22,7 +22,10 @@ public class Lane implements Comparable<Lane>{
 	}
 
 	public void setDangerLevel(int dangerLevel) {
-		this.dangerLevel = dangerLevel;
+		if (dangerLevel < 0)
+			this.dangerLevel = 0;
+			else
+				this.dangerLevel = dangerLevel;
 	}
 
 	public Wall getLaneWall() {
