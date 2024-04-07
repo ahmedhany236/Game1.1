@@ -1,74 +1,101 @@
 package game.engine.titans;
 
-import game.engine.interfaces.*;
+import game.engine.interfaces.Attackee;
+import game.engine.interfaces.Attacker;
+import game.engine.interfaces.Mobil;
 
-public abstract class Titan implements Comparable<Titan> ,Attackee,Attacker,Mobil{
+public abstract class Titan implements Attacker, Attackee, Mobil, Comparable<Titan>
+{
 	private final int baseHealth;
-	private int currentHealth ; //r,w
+	private int currentHealth;
 	private final int baseDamage;
 	private final int heightInMeters;
-	private int distanceFromBase; //r,w
-	private int speed; //r,w
-	private final int resourcesValue;
+	private int distanceFromBase;
+	private int speed; // distance moved per turn
+	private final int resourcesValue; // resources gained by defeating it
 	private final int dangerLevel;
-	public Titan(int baseHealth, int baseDamage, int heightInMeters, int distanceFromBase,
-				int speed, int resourcesValue, int dangerLevel) {
-		this.currentHealth = baseHealth;
+
+	public Titan(int baseHealth, int baseDamage, int heightInMeters, int distanceFromBase, int speed,
+			int resourcesValue, int dangerLevel)
+	{
+		super();
 		this.baseHealth = baseHealth;
-		this.baseDamage=baseDamage;
-		this.heightInMeters=heightInMeters;
-		this.distanceFromBase=distanceFromBase;
-		this.speed=speed;
-		this.resourcesValue=resourcesValue;
-		this.dangerLevel=dangerLevel;
+		this.currentHealth = baseHealth;
+		this.baseDamage = baseDamage;
+		this.heightInMeters = heightInMeters;
+		this.distanceFromBase = distanceFromBase;
+		this.speed = speed;
+		this.resourcesValue = resourcesValue;
+		this.dangerLevel = dangerLevel;
 	}
-	public int getCurrentHealth() {
-		return currentHealth;
+
+	public int getBaseHealth()
+	{
+		return this.baseHealth;
 	}
-	public void setCurrentHealth(int currentHealth) {
-		if (currentHealth<0)
-			this.currentHealth = 0;
-		else
-		this.currentHealth = currentHealth;
+
+	@Override
+	public int getCurrentHealth()
+	{
+		return this.currentHealth;
 	}
-	public int getDistance() {
-		return distanceFromBase;
+
+	@Override
+	public void setCurrentHealth(int health)
+	{
+		this.currentHealth = health < 0 ? 0 : health;
 	}
-	public void setDistance(int distanceFromBase) {
-		if (distanceFromBase < 0)
-			this.distanceFromBase = 0;
-		else
-			this.distanceFromBase = distanceFromBase;
+
+	@Override
+	public int getDamage()
+	{
+		return this.baseDamage;
 	}
-	public int getSpeed() {
-		return speed;
+
+	public int getHeightInMeters()
+	{
+		return this.heightInMeters;
 	}
-	public void setSpeed(int speed) {
-		if (speed < 0)
-			this.speed =0;
-		else
-			this.speed = speed;
+
+	@Override
+	public int getDistance()
+	{
+		return this.distanceFromBase;
 	}
-	public int getBaseHealth() {
-		return baseHealth;
+
+	@Override
+	public void setDistance(int distance)
+	{
+		this.distanceFromBase = distance < 0 ? 0 : distance;
 	}
-	public int getDamage() {
-		return baseDamage;
+
+	@Override
+	public int getSpeed()
+	{
+		return this.speed;
 	}
-	public int getHeightInMeters() {
-		return heightInMeters;
+
+	@Override
+	public void setSpeed(int speed)
+	{
+		this.speed = speed;
 	}
-	public int getResourcesValue() {
-		return resourcesValue;
+
+	@Override
+	public int getResourcesValue()
+	{
+		return this.resourcesValue;
 	}
-	public int getDangerLevel() {
-		return dangerLevel;
+
+	public int getDangerLevel()
+	{
+		return this.dangerLevel;
 	}
-	public int compareTo(Titan o) {
-		return this.distanceFromBase - ((Titan)o).distanceFromBase;
+
+	@Override
+	public int compareTo(Titan o) // prioritizing the nearest titans according to the wall
+	{
+		return this.distanceFromBase - o.distanceFromBase;
 	}
-	
+
 }
-
-
-
