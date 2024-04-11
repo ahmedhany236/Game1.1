@@ -5,7 +5,7 @@ import java.util.PriorityQueue;
 
 import game.engine.interfaces.Attackee;
 import game.engine.titans.Titan;
-;
+
 public class PiercingCannon extends Weapon
 {
 	public static final int WEAPON_CODE = 1;
@@ -20,9 +20,8 @@ public class PiercingCannon extends Weapon
 			attack((Attackee) laneTitans);
 			if (((Attackee) laneTitans).isDefeated()) {
 				resources += ((Attackee) laneTitans).getResourcesValue();
-					laneTitans.remove();
+				laneTitans.remove();
 			}
-				
 		}
 		return resources;
 	}
