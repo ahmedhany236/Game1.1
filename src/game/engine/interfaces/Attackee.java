@@ -7,5 +7,11 @@ public interface Attackee
 	void setCurrentHealth(int health);
 
 	int getResourcesValue();
+	
+	boolean isDefeated();
+	
+	int takeDamage(int damage);
+	
+	
 
 }

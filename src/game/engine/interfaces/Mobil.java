@@ -9,5 +9,8 @@ public interface Mobil
 	int getSpeed();
 
 	void setSpeed(int speed);
-
+	
+	boolean hasReachedTarget();
+	
+	boolean move();
 }
