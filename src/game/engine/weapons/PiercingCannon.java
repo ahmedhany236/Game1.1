@@ -16,14 +16,27 @@ public class PiercingCannon extends Weapon
 	}
 	public int turnAttack (PriorityQueue<Titan> laneTitans) {
 		int resources = 0;
-		for (int i = 0 ; i<5;i++) {
-			attack((Attackee) laneTitans);
-			if (((Attackee) laneTitans).isDefeated()) {
-				resources += ((Attackee) laneTitans).getResourcesValue();
-				laneTitans.remove();
+		Titan temp;
+		PriorityQueue<Titan> tempqueue = new PriorityQueue<Titan>();
+		while(true) {
+		    temp = laneTitans.remove();
+			for (int i = 0 ; i<5;i++) {
+			if(temp == null) {
+				break;
+			}
+			resources = this.attack((Attackee) temp);
+			tempqueue.add(temp);
 			}
 		}
+		while(tempqueue.peek()!= null) {
+				if (tempqueue.peek().isDefeated()) {
+					tempqueue.remove();
+				}
+				else {
+					laneTitans.add(tempqueue.peek());
+				}
+			}
 		return resources;
+	
 	}
-
 }
