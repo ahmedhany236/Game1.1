@@ -40,7 +40,7 @@ public class Wall implements Attackee
 	int takeDamage(int damage) {
 		this.setCurrentHealth(this.getCurrentHealth()- damage);
 		if(this.isDefeated())
-		return getResourcesValue();
+			return getResourcesValue();
 		else 
 			return 0;
 	}

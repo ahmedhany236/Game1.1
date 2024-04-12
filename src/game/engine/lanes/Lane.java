@@ -1,12 +1,9 @@
 package game.engine.lanes;
 
 import java.util.*;
-import java.util.PriorityQueue;
-
 import game.engine.base.Wall;
-import game.engine.titans.ColossalTitan;
-import game.engine.titans.Titan;
-import game.engine.weapons.Weapon;
+import game.engine.titans.*;
+import game.engine.weapons.*;
 
 public class Lane implements Comparable<Lane>
 {
@@ -64,12 +61,10 @@ public class Lane implements Comparable<Lane>
 	}
 	
 	public void moveLaneTitans() {
-		PriorityQueue<Titan> pq = new PriorityQueue<>();
+		PriorityQueue<Titan> pq = new PriorityQueue<Titan>();
 		while (!this.titans.isEmpty()) {
 			Titan peekTitan = this.titans.peek();
-			peekTitan.setDistance(peekTitan.getDistance() - peekTitan.getSpeed());
-			if(peekTitan instanceof ColossalTitan )
-				peekTitan.setSpeed(peekTitan.getSpeed()+1);
+			peekTitan.move();
 			pq.add(titans.remove());
 		}
 		while (!pq.isEmpty()) {
@@ -78,9 +73,21 @@ public class Lane implements Comparable<Lane>
 		
 	}
 	public int performLaneTitansAttacks() {
-		
+		PriorityQueue<Titan> pq = new PriorityQueue<Titan>();
+		int resources = 0;
+		while (!this.titans.isEmpty()) {
+			Titan peekTitan = this.titans.peek();
+			resources += peekTitan.attack(this.getLaneWall());
+			pq.add(titans.remove());
+		}
+		while (!pq.isEmpty()) {
+			titans.add(pq.remove());
+		}
+		return resources;
 	}
 	public int performLaneWeaponAttacks() {
+	
+		//return dangerLevel;
 		
 	}
 	public boolean isLaneLost() {
