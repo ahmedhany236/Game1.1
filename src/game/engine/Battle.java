@@ -9,13 +9,8 @@ import game.engine.dataloader.DataLoader;
 import game.engine.exceptions.InsufficientResourcesException;
 import game.engine.exceptions.InvalidLaneException;
 import game.engine.lanes.Lane;
-import game.engine.titans.PureTitan;
 import game.engine.titans.Titan;
 import game.engine.titans.TitanRegistry;
-import game.engine.weapons.PiercingCannon;
-import game.engine.weapons.SniperCannon;
-import game.engine.weapons.VolleySpreadCannon;
-import game.engine.weapons.WallTrap;
 import game.engine.weapons.factory.WeaponFactory;
 
 public class Battle
@@ -171,32 +166,153 @@ public class Battle
 		}
 	}
 	public void purchaseWeapon(int weaponCode, Lane lane) throws InsufficientResourcesException,
-	InvalidLaneException{
+	InvalidLaneException{ // remark: make sure to fix errors
+		
 		if(!lane.isLaneLost()) {
 			try {
 				lane.addWeapon(weaponFactory.buyWeapon(this.resourcesGathered,weaponCode).getWeapon());
 			}
 			catch (InsufficientResourcesException e) {
-				throw e;
+				throw new InsufficientResourcesException(resourcesGathered) ;
 			}
-			
 		}
 		else 
-			throws InvalidLaneException;
-			}
-			
+			throw new InvalidLaneException();
 		
+			
+	}
+	public void passTurn()
+	{
 		
 		
 	}
+	private void addTurnTitansToLane() {
+		if (approachingTitans.isEmpty())
+			refillApproachingTitans();
+		PriorityQueue<Lane> pq = new PriorityQueue<Lane>();
+		Lane temp = lanes.remove();
+		while (lanes.peek()!= null && temp!=null) {
+			pq.add(temp);
+			temp = lanes.remove();
+		}
+		int j = 0;
+		for(int i = 0;i< numberOfTitansPerTurn;i++ ) {
+			
+			if(approachingTitans.get(i) == null)
+				refillApproachingTitans();
+				j = 0;
+			if (!temp.isLaneLost())
+				temp.addTitan(approachingTitans.remove(j));
+			
+		}
+		
+	}
+	private void moveTitans() {
+		PriorityQueue<Lane> pq = new PriorityQueue<Lane>();
+		PriorityQueue<Titan> pqtitans = new PriorityQueue<Titan>();
+		while (!lanes.isEmpty()) {
+			Lane templane= lanes.remove();
+			while(!templane.getTitans().isEmpty()) {
+				Titan temp = templane.getTitans().remove();
+				temp.move();
+				pqtitans.add(temp);	
+			}
+			while(!pqtitans.isEmpty()) {
+				templane.getTitans().add(pqtitans.remove());
+			}
+			pq.add(templane);
+		}
+		while(!pq.isEmpty()) {
+			lanes.add(pq.remove());
+		}
+		
+	}
+	private int performWeaponsAttacks() {
+		PriorityQueue<Lane> pq = new PriorityQueue<Lane>();
+		int resources = 0;
+		while (!lanes.isEmpty()) {
+			Lane temp = lanes.remove();
+			resources += temp.performLaneWeaponAttacks();
+			pq.add(temp);
+			
+		}
+		while(!pq.isEmpty()) {
+			lanes.add(pq.remove());
+		}
+		return resources;
+		
+	}
+	
+	private int performTitansAttacks() {
+		PriorityQueue<Lane> pq = new PriorityQueue<Lane>();
+		int resources = 0;
+		while (!lanes.isEmpty()) {
+			Lane temp = lanes.remove();
+			resources += temp.performLaneTitansAttacks();
+			pq.add(temp);
+			
+		}
+		while(!pq.isEmpty()) {
+			lanes.add(pq.remove());
+		}
+		return resources;
+	}
+	private void updateLanesDangerLevels() {
+		PriorityQueue<Lane> pq = new PriorityQueue<Lane>();
+		while (!lanes.isEmpty()) {
+			Lane temp = lanes.remove();
+			temp.updateLaneDangerLevel();
+			pq.add(temp);
+		}
+		while(!pq.isEmpty()) {
+			lanes.add(pq.remove());
+		}
+	}
+	private void finalizeTurns() {
+		numberOfTurns++;
+		if (numberOfTurns<15) {
+			battlePhase = BattlePhase.EARLY;
+		}
+		else
+			if(numberOfTurns<30) {
+				battlePhase = BattlePhase.INTENSE;
+		}
+		else {
+			if (numberOfTurns>=30 && numberOfTurns%5!= 0)
+				battlePhase = BattlePhase.GRUMBLING	;
+			else {
+				numberOfTitansPerTurn *= 2;
+				battlePhase = BattlePhase.GRUMBLING	;
+			
+			}
+		}	
+	}
+	private void performTurn() {
+		moveTitans();
+		performWeaponsAttacks();
+		performTitansAttacks();
+		addTurnTitansToLane();
+		updateLanesDangerLevels();
+		finalizeTurns();
+		
+	}
+	public boolean isGameOver() {
+		boolean flag = true;
+		PriorityQueue<Lane> pq = new PriorityQueue<Lane>();
+		pq = lanes;
+		while(pq.isEmpty()) {
+			if(!pq.remove().isLaneLost()) {
+				flag = false;
+				break;
+			}
+			
+		}
+		return flag;
+			
+	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-
 }
+
+		
+	
