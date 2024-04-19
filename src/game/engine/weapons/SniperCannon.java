@@ -2,7 +2,6 @@ package game.engine.weapons;
 
 import java.util.PriorityQueue;
 
-import game.engine.interfaces.Attackee;
 import game.engine.titans.Titan;
 
 public class SniperCannon extends Weapon
@@ -16,23 +15,14 @@ public class SniperCannon extends Weapon
 	public int turnAttack (PriorityQueue<Titan> laneTitans) {
 		int resources = 0;
 		Titan temp;
-		PriorityQueue<Titan> tempqueue = new PriorityQueue<Titan>();
 		while(true) {
-		    temp = laneTitans.remove();
+		    temp = laneTitans.peek();
 			if(temp == null) {
 				break;
 			}
-			resources = this.attack((Attackee) temp);
-			tempqueue.add(temp);
+			resources = this.attack(temp);
 		}
-		while(tempqueue.peek()!= null) {
-				if (tempqueue.peek().isDefeated()) {
-					tempqueue.remove();
-				}
-				else {
-					laneTitans.add(tempqueue.peek());
-				}
-			}
-			return resources;
+		
+		return resources;
 	}
 }

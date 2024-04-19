@@ -66,14 +66,15 @@ public class WeaponRegistry
 	{
 		return maxRange;
 	}
-	public Weapon buildWeapon(){ //data should come from csv??
+	public Weapon buildWeapon(){
 		switch (this.getCode()){
-			case 1: return new PiercingCannon(10);
-			case 2: return new SniperCannon(35);
-			case 3: return new VolleySpreadCannon(5,20,50);
-			case 4: return new WallTrap(100);
+			case 1: return new PiercingCannon(damage);
+			case 2: return new SniperCannon(damage);
+			case 3: return new VolleySpreadCannon(damage,minRange,maxRange);
+			case 4: return new WallTrap(damage);
 		}
 		return null;
 	}
+	
 
 }
