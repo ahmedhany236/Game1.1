@@ -64,7 +64,7 @@ public class Lane implements Comparable<Lane>
 		PriorityQueue<Titan> pq = new PriorityQueue<Titan>();
 		while (!this.titans.isEmpty()) {
 			Titan peekTitan = this.titans.remove();
-			if (peekTitan.hasReachedTarget()){
+			if (!peekTitan.hasReachedTarget()){
 				peekTitan.move();
 			}
 			pq.add(peekTitan);

@@ -4,12 +4,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.PriorityQueue;
-
 import game.engine.base.Wall;
 import game.engine.dataloader.DataLoader;
+import game.engine.exceptions.InsufficientResourcesException;
+import game.engine.exceptions.InvalidLaneException;
 import game.engine.lanes.Lane;
+import game.engine.titans.PureTitan;
 import game.engine.titans.Titan;
 import game.engine.titans.TitanRegistry;
+import game.engine.weapons.PiercingCannon;
+import game.engine.weapons.SniperCannon;
+import game.engine.weapons.VolleySpreadCannon;
+import game.engine.weapons.WallTrap;
 import game.engine.weapons.factory.WeaponFactory;
 
 public class Battle
@@ -148,5 +154,49 @@ public class Battle
 			this.getLanes().add(l);
 		}
 	}
+	public void refillApproachingTitans() {
+		switch (this.getBattlePhase()) {
+		case EARLY: 
+			for(int i = 0;i<7; i++) {
+				titansArchives.get(PHASES_APPROACHING_TITANS[1][i]).spawnTitan(titanSpawnDistance);
+			}
+		case INTENSE:
+			for(int i = 0;i<7; i++) {
+				titansArchives.get(PHASES_APPROACHING_TITANS[2][i]).spawnTitan(titanSpawnDistance);
+			}
+		case GRUMBLING:
+			for(int i = 0;i<7; i++) {
+				titansArchives.get(PHASES_APPROACHING_TITANS[3][i]).spawnTitan(titanSpawnDistance);
+			}
+		}
+	}
+	public void purchaseWeapon(int weaponCode, Lane lane) throws InsufficientResourcesException,
+	InvalidLaneException{
+		if(!lane.isLaneLost()) {
+			try {
+				lane.addWeapon(weaponFactory.buyWeapon(this.resourcesGathered,weaponCode).getWeapon());
+			}
+			catch (InsufficientResourcesException e) {
+				throw e;
+			}
+			
+		}
+		else 
+			throws InvalidLaneException;
+			}
+			
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }
