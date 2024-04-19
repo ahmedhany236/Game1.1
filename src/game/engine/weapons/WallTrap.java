@@ -1,8 +1,6 @@
 package game.engine.weapons;
 
 import java.util.PriorityQueue;
-
-import game.engine.interfaces.Attackee;
 import game.engine.titans.Titan;
 
 public class WallTrap extends Weapon
@@ -16,13 +14,12 @@ public class WallTrap extends Weapon
 	
 	public int turnAttack (PriorityQueue<Titan> laneTitans) {
 		int resources = 0;
-		Titan temp;
-		temp = laneTitans.remove();
-		if(temp == null) {
-				break;
+		if(laneTitans.peek().hasReachedTarget()) {
+			resources = this.attack(laneTitans.peek());
+			if (laneTitans.peek().isDefeated()) {
+				laneTitans.remove();
+			}
 		}
-		if(laneTitans.peek().getDistance()==0) {
-			resources = this.attack((Attackee) temp);
-	}
+		return resources;
 	}
 }

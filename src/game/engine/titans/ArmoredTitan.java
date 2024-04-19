@@ -9,7 +9,7 @@ public class ArmoredTitan extends Titan
 	{
 		super(baseHealth, baseDamage, heightInMeters, distanceFromBase, speed, resourcesValue, dangerLevel);
 	}
-	 int takeDamage(int damage) {
+	 public int takeDamage(int damage) {
 		return super.takeDamage(damage/4);
 	}
 }

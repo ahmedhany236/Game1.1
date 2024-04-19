@@ -66,14 +66,14 @@ public class WeaponRegistry
 	{
 		return maxRange;
 	}
-	public Weapon buildWeapon(){ //possible error in constructor with required data
+	public Weapon buildWeapon(){ //data should come from csv??
 		switch (this.getCode()){
 			case 1: return new PiercingCannon(10);
 			case 2: return new SniperCannon(35);
 			case 3: return new VolleySpreadCannon(5,20,50);
 			case 4: return new WallTrap(100);
 		}
-		return null; //possible error should return error
+		return null;
 	}
 
 }

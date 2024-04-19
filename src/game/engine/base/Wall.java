@@ -37,19 +37,5 @@ public class Wall implements Attackee
 		return -1;
 	}
 	
-	int takeDamage(int damage) {
-		this.setCurrentHealth(this.getCurrentHealth()- damage);
-		if(this.isDefeated())
-			return getResourcesValue();
-		else 
-			return 0;
-	}
 	
-	boolean isDefeated() {
-		if (this.currentHealth <= 0) {
-			return true;
-		}
-		else
-			return false;
-	}
 }

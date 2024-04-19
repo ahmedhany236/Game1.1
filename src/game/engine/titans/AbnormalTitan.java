@@ -11,7 +11,7 @@ public class AbnormalTitan extends Titan
 	{
 		super(baseHealth, baseDamage, heightInMeters, distanceFromBase, speed, resourcesValue, dangerLevel);
 	}
-		int  attack(Attackee target) {
+		public int  attack(Attackee target) {
 			return (super.attack(target) + super.attack(target));
 		
 	 }	

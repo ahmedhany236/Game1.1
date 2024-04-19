@@ -98,36 +98,11 @@ public abstract class Titan implements Attacker, Attackee, Mobil, Comparable<Tit
 		return this.distanceFromBase - o.distanceFromBase;
 	}
 	
-	boolean isDefeated() {
-		if (this.currentHealth <= 0) {
-			return true;
-		}
-		else
-			return false;
-	}
-	int takeDamage(int damage) {
-		this.setCurrentHealth(this.getCurrentHealth()- damage);
-		if(this.isDefeated()) {
-			return this.getResourcesValue();
-		}
-		else {
-			return 0;
-		}
-	}
-	int attack(Attackee target) {
+	public int attack(Attackee target) {
 		if(this.hasReachedTarget())
 			return target.takeDamage(this.getDamage());
-		return target.getResourcesValue(); //possible exception maybe return 0
+		return 0;
+		
 		
 	}
-	
-	boolean hasReachedTarget() {
-		return this.distanceFromBase==0;
-	}
-	boolean move() {
-		if(!hasReachedTarget())
-			this.setDistance(distanceFromBase - speed);
-		return this.hasReachedTarget();
-	}
-	
 }
