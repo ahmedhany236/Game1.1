@@ -8,9 +8,23 @@ public interface Attackee
 
 	int getResourcesValue();
 	
-	boolean isDefeated();
+	default boolean isDefeated() {
+		if (this.getCurrentHealth() <= 0) {
+			return true;
+		}
+		else
+			return false;
+	}
 	
-	int takeDamage(int damage);
+	default int takeDamage(int damage) {
+		this.setCurrentHealth(this.getCurrentHealth()- damage);
+		if(this.isDefeated()) {
+			return this.getResourcesValue();
+		}
+		else {
+			return 0;
+		}
+	}
 	
 	
 

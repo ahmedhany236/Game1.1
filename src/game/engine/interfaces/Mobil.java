@@ -10,7 +10,13 @@ public interface Mobil
 
 	void setSpeed(int speed);
 	
-	boolean hasReachedTarget();
+	default boolean hasReachedTarget() {
+		return this.getDistance()==0;
+	}
 	
-	boolean move();
+	default boolean move() {
+		if(!hasReachedTarget())
+			this.setDistance(this.getDistance() - this.getSpeed());
+		return this.hasReachedTarget();
+	}
 }

@@ -20,5 +20,6 @@ public abstract class Weapon implements Attacker
 	}
 	
 	public abstract int turnAttack(PriorityQueue<Titan> laneTitans);
-
+	
+	
 }

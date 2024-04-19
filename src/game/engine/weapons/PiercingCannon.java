@@ -1,9 +1,6 @@
 package game.engine.weapons;
 
-import java.util.AbstractQueue;
 import java.util.PriorityQueue;
-
-import game.engine.interfaces.Attackee;
 import game.engine.titans.Titan;
 
 public class PiercingCannon extends Weapon
@@ -16,14 +13,25 @@ public class PiercingCannon extends Weapon
 	}
 	public int turnAttack (PriorityQueue<Titan> laneTitans) {
 		int resources = 0;
+		Titan temp;
+		PriorityQueue<Titan> tempqueue = new PriorityQueue<Titan>();
 		for (int i = 0 ; i<5;i++) {
-			attack((Attackee) laneTitans);
-			if (((Attackee) laneTitans).isDefeated()) {
-				resources += ((Attackee) laneTitans).getResourcesValue();
-				laneTitans.remove();
+			temp = laneTitans.remove();
+			if(temp == null)
+				break;
+			resources = this.attack(temp);
+			tempqueue.add(temp);
 			}
-		}
-		return resources;
-	}
 
+		while(tempqueue.peek()!= null) {
+			if (tempqueue.peek().isDefeated()) 
+				tempqueue.remove();
+			
+			else 
+				laneTitans.add(tempqueue.peek());
+				
+			}
+		return resources;
+	
+	}
 }

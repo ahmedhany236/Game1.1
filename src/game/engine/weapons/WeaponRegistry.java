@@ -1,5 +1,6 @@
 package game.engine.weapons;
 
+
 public class WeaponRegistry
 {
 	private final int code;
@@ -64,6 +65,15 @@ public class WeaponRegistry
 	public int getMaxRange()
 	{
 		return maxRange;
+	}
+	public Weapon buildWeapon(){ //data should come from csv??
+		switch (this.getCode()){
+			case 1: return new PiercingCannon(10);
+			case 2: return new SniperCannon(35);
+			case 3: return new VolleySpreadCannon(5,20,50);
+			case 4: return new WallTrap(100);
+		}
+		return null;
 	}
 
 }

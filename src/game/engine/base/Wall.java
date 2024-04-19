@@ -36,5 +36,6 @@ public class Wall implements Attackee
 	{
 		return -1;
 	}
-
+	
+	
 }
