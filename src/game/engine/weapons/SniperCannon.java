@@ -14,15 +14,8 @@ public class SniperCannon extends Weapon
 	}
 	public int turnAttack (PriorityQueue<Titan> laneTitans) {
 		int resources = 0;
-		Titan temp;
-		while(true) {
-		    temp = laneTitans.peek();
-			if(temp == null) {
-				break;
-			}
-			resources = this.attack(temp);
-		}
-		
+		if(laneTitans.peek() != null) 
+			resources = this.attack(laneTitans.peek());
 		return resources;
 	}
 }

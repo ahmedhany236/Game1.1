@@ -107,10 +107,11 @@ public class Lane implements Comparable<Lane>
 	}
 	public void updateLaneDangerLevel() {
 		PriorityQueue<Titan> pq = new PriorityQueue<Titan>();
-		Titan peekTitan = this.titans.remove();
 		int updated = 0;
-		while (!this.titans.isEmpty()) {
+		while (!titans.isEmpty()) {
+			Titan peekTitan = titans.remove();
 			updated+= peekTitan.getDangerLevel();
+			pq.add(peekTitan);
 		}
 		while (!pq.isEmpty()) {
 			titans.add(pq.remove());

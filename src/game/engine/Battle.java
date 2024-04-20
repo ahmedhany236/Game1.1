@@ -305,7 +305,6 @@ public class Battle
 				flag = false;
 				break;
 			}
-			
 		}
 		return flag;
 			

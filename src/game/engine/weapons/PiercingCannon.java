@@ -15,7 +15,7 @@ public class PiercingCannon extends Weapon
 		int resources = 0;
 		Titan temp;
 		PriorityQueue<Titan> tempqueue = new PriorityQueue<Titan>();
-		for (int i = 0 ; i<5;i++) {
+		for (int i=0;i<5;i++) {
 			temp = laneTitans.remove();
 			if(temp == null)
 				break;
@@ -28,7 +28,7 @@ public class PiercingCannon extends Weapon
 				tempqueue.remove();
 			
 			else 
-				laneTitans.add(tempqueue.peek());
+				laneTitans.add(tempqueue.remove());
 				
 			}
 		return resources;
