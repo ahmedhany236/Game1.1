@@ -37,17 +37,18 @@ public class VolleySpreadCannon extends Weapon
 			if(temp == null) {
 				break;
 			}
-			if (temp.getDistance()<this.getMaxRange() && temp.getDistance()>this.getMinRange()) {
-				resources = this.attack((Attackee) temp);
+			if (temp.getDistance()<=this.getMaxRange() && temp.getDistance()>=this.getMinRange()) {
+				resources += this.attack(temp);
 			}
+			
 				tempqueue.add(temp);
 		}
-		while(tempqueue.peek()!= null) {
+		while(!tempqueue.isEmpty()) {
 				if (tempqueue.peek().isDefeated()) {
 					tempqueue.remove();
 				}
 				else {
-					laneTitans.add(tempqueue.peek());
+					laneTitans.add(tempqueue.remove());
 				}
 			}
 			return resources;

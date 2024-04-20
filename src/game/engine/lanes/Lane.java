@@ -79,8 +79,10 @@ public class Lane implements Comparable<Lane>
 		int resources = 0;
 		while (!this.titans.isEmpty()) {
 			Titan peekTitan = this.titans.remove();
-			resources += peekTitan.attack(this.getLaneWall());
-			pq.add(peekTitan);
+			if (!this.isLaneLost() && !peekTitan.isDefeated()) {
+					resources += peekTitan.attack(this.getLaneWall());
+					pq.add(peekTitan);
+			}
 		}
 		while (!pq.isEmpty()) {
 			titans.add(pq.remove());
@@ -93,7 +95,7 @@ public class Lane implements Comparable<Lane>
 		while (!titans.isEmpty()) {
 			Titan temp = titans.remove();
 			for(int i =0;i<weapons.size();i++) {
-				if (!temp.isDefeated())
+				if (!temp.isDefeated() && !this.isLaneLost())
 					resources += weapons.get(i).attack(temp);
 				else
 					break;
