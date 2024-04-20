@@ -17,13 +17,13 @@ public class PiercingCannon extends Weapon
 		PriorityQueue<Titan> tempqueue = new PriorityQueue<Titan>();
 		for (int i=0;i<5;i++) {
 			temp = laneTitans.remove();
-			if(temp == null)
+			if(temp == null || temp.isDefeated())
 				break;
-			resources = this.attack(temp);
+			resources += this.attack(temp);
 			tempqueue.add(temp);
 			}
 
-		while(tempqueue.peek()!= null) {
+		while(!tempqueue.isEmpty()) {
 			if (tempqueue.peek().isDefeated()) 
 				tempqueue.remove();
 			

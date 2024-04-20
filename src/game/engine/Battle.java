@@ -102,7 +102,7 @@ public class Battle
 	{
 		this.score = score;
 	}
-
+	
 	public int getTitanSpawnDistance()
 	{
 		return titanSpawnDistance;
@@ -153,15 +153,15 @@ public class Battle
 		switch (this.getBattlePhase()) {
 		case EARLY: 
 			for(int i = 0;i<7; i++) {
-				titansArchives.get(PHASES_APPROACHING_TITANS[1][i]).spawnTitan(titanSpawnDistance);
+				approachingTitans.add(i , titansArchives.get(PHASES_APPROACHING_TITANS[0][i]).spawnTitan(titanSpawnDistance));
 			}
 		case INTENSE:
 			for(int i = 0;i<7; i++) {
-				titansArchives.get(PHASES_APPROACHING_TITANS[2][i]).spawnTitan(titanSpawnDistance);
+				approachingTitans.add(i , titansArchives.get(PHASES_APPROACHING_TITANS[1][i]).spawnTitan(titanSpawnDistance));
 			}
 		case GRUMBLING:
 			for(int i = 0;i<7; i++) {
-				titansArchives.get(PHASES_APPROACHING_TITANS[3][i]).spawnTitan(titanSpawnDistance);
+				approachingTitans.add(i , titansArchives.get(PHASES_APPROACHING_TITANS[2][i]).spawnTitan(titanSpawnDistance));
 			}
 		}
 	}
@@ -187,7 +187,12 @@ public class Battle
 	}
 	public void passTurn()
 	{
-		
+		moveTitans();
+		performWeaponsAttacks();
+		performTitansAttacks();
+		addTurnTitansToLane();
+		updateLanesDangerLevels();
+		finalizeTurns();
 	}
 	private void addTurnTitansToLane() {
 		PriorityQueue<Lane> pq = new PriorityQueue<Lane>();
@@ -249,6 +254,7 @@ public class Battle
 			
 			
 		}
+		score += resources;
 		while(!pq.isEmpty()) {
 			lanes.add(pq.remove());
 		}
@@ -261,9 +267,10 @@ public class Battle
 		int resources = 0;
 		while (!lanes.isEmpty()) {
 			Lane temp = lanes.remove();
-			resources += temp.performLaneTitansAttacks();
-			pq.add(temp);
-			
+			if(!temp.isLaneLost()) {
+				resources += temp.performLaneTitansAttacks();
+				pq.add(temp);
+			}
 		}
 		while(!pq.isEmpty()) {
 			lanes.add(pq.remove());
@@ -314,13 +321,16 @@ public class Battle
 	public boolean isGameOver() {
 		boolean flag = true;
 		PriorityQueue<Lane> pq = new PriorityQueue<Lane>();
-		pq = lanes;
-		while(pq.isEmpty()) {
-			if(!pq.remove().isLaneLost()) {
+		while(!lanes.isEmpty()) {
+			Lane temp = lanes.remove();
+			if(!temp.isLaneLost()) {
 				flag = false;
 				break;
 			}
+			pq.add(temp);
 		}
+		while (!pq.isEmpty())
+			lanes.add(pq.remove());
 		return flag;
 			
 	}
@@ -328,5 +338,4 @@ public class Battle
 	
 }
 
-		//hi
 	
