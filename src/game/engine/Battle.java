@@ -166,45 +166,55 @@ public class Battle
 		}
 	}
 	public void purchaseWeapon(int weaponCode, Lane lane) throws InsufficientResourcesException,
-	InvalidLaneException{ // remark: make sure to fix errors
-		
+	InvalidLaneException{ 
 		if(!lane.isLaneLost()) {
+			try { 
+				lane.addWeapon(weaponFactory.buyWeapon(this.resourcesGathered,weaponCode).getWeapon());
+			}
+			catch(InvalidLaneException e){
+				new InvalidLaneException();
+			}
+				
 			try {
 				lane.addWeapon(weaponFactory.buyWeapon(this.resourcesGathered,weaponCode).getWeapon());
 			}
 			catch (InsufficientResourcesException e) {
-				throw new InsufficientResourcesException(resourcesGathered) ;
+				new InsufficientResourcesException(this.resourcesGathered);
 			}
+			
 		}
-		else 
-			throw new InvalidLaneException();
-		
 			
 	}
 	public void passTurn()
 	{
 		
-		
 	}
 	private void addTurnTitansToLane() {
-		if (approachingTitans.isEmpty())
-			refillApproachingTitans();
 		PriorityQueue<Lane> pq = new PriorityQueue<Lane>();
-		Lane temp = lanes.remove();
-		while (lanes.peek()!= null && temp!=null) {
-			pq.add(temp);
-			temp = lanes.remove();
+		Lane temp = lanes.peek();
+		for(int i = 0;i<lanes.size();i++) {
+			if(lanes.peek().isLaneLost()) {
+				pq.add(lanes.remove());
+			}
+			else {
+				temp = lanes.peek();
+				pq.add(lanes.remove());
+			}
 		}
 		int j = 0;
 		for(int i = 0;i< numberOfTitansPerTurn;i++ ) {
-			
-			if(approachingTitans.get(i) == null)
+			if(approachingTitans.isEmpty()) {
 				refillApproachingTitans();
 				j = 0;
-			if (!temp.isLaneLost())
-				temp.addTitan(approachingTitans.remove(j));
-			
+			}
+			temp.addTitan(approachingTitans.remove(j));
+			j++;
 		}
+		pq.add(temp);
+		while(!pq.isEmpty()) {
+			lanes.add(pq.remove());
+		}
+		
 		
 	}
 	private void moveTitans() {
@@ -232,8 +242,11 @@ public class Battle
 		int resources = 0;
 		while (!lanes.isEmpty()) {
 			Lane temp = lanes.remove();
-			resources += temp.performLaneWeaponAttacks();
-			pq.add(temp);
+			if(!temp.isLaneLost()) {
+				resources += temp.performLaneWeaponAttacks();
+				pq.add(temp);
+			}
+			
 			
 		}
 		while(!pq.isEmpty()) {
@@ -260,9 +273,11 @@ public class Battle
 	private void updateLanesDangerLevels() {
 		PriorityQueue<Lane> pq = new PriorityQueue<Lane>();
 		while (!lanes.isEmpty()) {
-			Lane temp = lanes.remove();
-			temp.updateLaneDangerLevel();
-			pq.add(temp);
+			if (!lanes.peek().isLaneLost()) {
+				Lane temp = lanes.remove();
+				temp.updateLaneDangerLevel();
+				pq.add(temp);
+			}
 		}
 		while(!pq.isEmpty()) {
 			lanes.add(pq.remove());
@@ -278,12 +293,12 @@ public class Battle
 				battlePhase = BattlePhase.INTENSE;
 		}
 		else {
-			if (numberOfTurns>=30 && numberOfTurns%5!= 0)
+			if (numberOfTurns>30 && numberOfTurns%5== 0) {
 				battlePhase = BattlePhase.GRUMBLING	;
-			else {
 				numberOfTitansPerTurn *= 2;
+			}
+			else {
 				battlePhase = BattlePhase.GRUMBLING	;
-			
 			}
 		}	
 	}
