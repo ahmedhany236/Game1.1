@@ -11,27 +11,24 @@ public class PiercingCannon extends Weapon
 	{
 		super(baseDamage);
 	}
-	public int turnAttack (PriorityQueue<Titan> laneTitans) {
+	public int turnAttack (PriorityQueue<Titan> laneTitans) { //probably must check if all five exist else does nothing 
 		int resources = 0;
 		Titan temp;
 		PriorityQueue<Titan> tempqueue = new PriorityQueue<Titan>();
-		for (int i=0;i<5;i++) {
-			temp = laneTitans.remove();
-			if(temp == null || temp.isDefeated())
-				break;
-			resources += this.attack(temp);
-			tempqueue.add(temp);
+		if(laneTitans.size()>=5) {
+			for (int i=0;i<5;i++) {
+				temp = laneTitans.remove();
+				resources += this.attack(temp);
+				tempqueue.add(temp);
+				}	
 			}
-
-		while(!tempqueue.isEmpty()) {
-			if (tempqueue.peek().isDefeated()) 
-				tempqueue.remove();
-			
-			else 
-				laneTitans.add(tempqueue.remove());
+			while(!tempqueue.isEmpty()) {
+				if (tempqueue.peek().isDefeated()) 
+					tempqueue.remove();
+				else 
+					laneTitans.add(tempqueue.remove());
 				
 			}
 		return resources;
-	
 	}
 }
