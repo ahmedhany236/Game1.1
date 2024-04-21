@@ -149,7 +149,7 @@ public class Battle
 			this.getLanes().add(l);
 		}
 	}
-	public void refillApproachingTitans() {
+	public void refillApproachingTitans() { //wrong
 		switch (this.getBattlePhase()) {
 		case EARLY: 
 			for(int i = 0;i<7; i++) {
