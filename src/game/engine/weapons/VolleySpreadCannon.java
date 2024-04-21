@@ -1,8 +1,6 @@
 package game.engine.weapons;
 
 import java.util.PriorityQueue;
-
-import game.engine.interfaces.Attackee;
 import game.engine.titans.Titan;
 
 public class VolleySpreadCannon extends Weapon
