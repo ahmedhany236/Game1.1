@@ -36,16 +36,16 @@ public class Wall implements Attackee
 	{
 		return -1;
 	}
-	public int takeDamage(int damage) {
-		this.setCurrentHealth(this.getCurrentHealth()- damage);
-		if(this.isDefeated()) {
-			this.setCurrentHealth(0);
-			return -1;
-		}
-		else {
-			return 0;
-		}
-	}
+//	public int takeDamage(int damage) {
+//		this.setCurrentHealth(this.getCurrentHealth()- damage);
+//		if(this.isDefeated()) {
+//			this.setCurrentHealth(0);
+//			return -1;
+//		}
+//		else {
+//			return 0;
+//		}
+//	}
 	
 
 	
