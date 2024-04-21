@@ -167,14 +167,20 @@ public class Battle
 	}
 	public void purchaseWeapon(int weaponCode, Lane lane) throws InsufficientResourcesException,
 	InvalidLaneException{ 
-		if(!lane.isLaneLost()) {
-			try { 
-				lane.addWeapon(weaponFactory.buyWeapon(this.resourcesGathered,weaponCode).getWeapon());
-			}
-			catch(InvalidLaneException e){
-				new InvalidLaneException();
-			}
-				
+		boolean flag = false;
+		PriorityQueue<Lane> pq = new PriorityQueue<Lane>();
+		while (!lanes.isEmpty()) {
+			Lane temp = lanes.remove();
+			if(lane == temp) {
+				flag = true;
+				pq.add(temp);
+				break;
+			}	
+			while (!pq.isEmpty())
+				lanes.add(pq.remove());
+			
+		}
+		if(!lane.isLaneLost() && flag==true) {
 			try {
 				lane.addWeapon(weaponFactory.buyWeapon(this.resourcesGathered,weaponCode).getWeapon());
 			}
@@ -183,6 +189,8 @@ public class Battle
 			}
 			
 		}
+		else 
+			throw new InvalidLaneException();
 			
 	}
 	public void passTurn()
