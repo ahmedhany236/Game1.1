@@ -92,15 +92,15 @@ public class Lane implements Comparable<Lane>
 	public int performLaneWeaponAttacks() {
 		PriorityQueue<Titan> pq = new PriorityQueue<Titan>();
 		int resources = 0;
-		while (!titans.isEmpty()) {
-			Titan temp = titans.remove();
-			for(int i =0;i<weapons.size();i++) {
-				if (!temp.isDefeated() && !this.isLaneLost())
-					resources += weapons.get(i).attack(temp);
-				else
-					break;
+		if(!weapons.isEmpty()&& !this.isLaneLost()){
+			while (!titans.isEmpty()) {
+				Titan temp = titans.remove();
+				for(int i =0;i<weapons.size();i++) {
+					if (!temp.isDefeated())
+						resources += weapons.get(i).attack(temp);
+						pq.add(temp);
+				}
 			}
-			pq.add(temp);
 		}
 		while (!pq.isEmpty()) {
 			this.getTitans().add(pq.remove());

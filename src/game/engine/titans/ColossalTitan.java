@@ -10,7 +10,8 @@ public class ColossalTitan extends Titan
 		super(baseHealth, baseDamage, heightInMeters, distanceFromBase, speed, resourcesValue, dangerLevel);
 	}
 	public boolean move() {
-		this.setSpeed(getSpeed() + 1);	
+		if(!this.hasReachedTarget()) 
+			this.setSpeed(this.getSpeed()+1);
 		return super.move();
 	}
 }
