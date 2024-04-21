@@ -32,16 +32,12 @@ public class VolleySpreadCannon extends Weapon
 		int resources = 0;
 		Titan temp;
 		PriorityQueue<Titan> tempqueue = new PriorityQueue<Titan>();
-		while(true) {
+		while(!laneTitans.isEmpty()) {
 			temp = laneTitans.remove();
-			if(temp == null) {
-				break;
-			}
 			if (temp.getDistance()<=this.getMaxRange() && temp.getDistance()>=this.getMinRange()) {
 				resources += this.attack(temp);
 			}
-			
-				tempqueue.add(temp);
+			tempqueue.add(temp);
 		}
 		while(!tempqueue.isEmpty()) {
 				if (tempqueue.peek().isDefeated()) {

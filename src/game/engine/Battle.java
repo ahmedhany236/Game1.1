@@ -194,32 +194,20 @@ public class Battle
 		updateLanesDangerLevels();
 		finalizeTurns();
 	}
-	private void addTurnTitansToLane() {
-		PriorityQueue<Lane> pq = new PriorityQueue<Lane>();
-		Lane temp = lanes.peek();
-		for(int i = 0;i<lanes.size();i++) {
-			if(lanes.peek().isLaneLost()) {
-				pq.add(lanes.remove());
-			}
-			else {
-				temp = lanes.peek();
-				pq.add(lanes.remove());
-			}
-		}
+	private void addTurnTitansToLane() { // j can't be 0 every time this method is called
 		int j = 0;
-		for(int i = 0;i< numberOfTitansPerTurn;i++ ) {
-			if(approachingTitans.isEmpty()) {
-				refillApproachingTitans();
-				j = 0;
+
+		while (lanes.peek().isLaneLost()) {
+			lanes.remove();
+		}
+		for(int i=0;i< numberOfTitansPerTurn;i++ ) {
+				if(approachingTitans.isEmpty()) {
+					refillApproachingTitans();
+					j = 0;
+				}
+				lanes.peek().addTitan(approachingTitans.remove(j));
+				j++;
 			}
-			temp.addTitan(approachingTitans.remove(j));
-			j++;
-		}
-		pq.add(temp);
-		while(!pq.isEmpty()) {
-			lanes.add(pq.remove());
-		}
-		
 		
 	}
 	private void moveTitans() {
@@ -251,10 +239,9 @@ public class Battle
 				resources += temp.performLaneWeaponAttacks();
 				pq.add(temp);
 			}
-			
-			
 		}
 		score += resources;
+		resourcesGathered += resources;
 		while(!pq.isEmpty()) {
 			lanes.add(pq.remove());
 		}
