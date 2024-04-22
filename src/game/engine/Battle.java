@@ -166,33 +166,39 @@ public class Battle
 		}
 	}
 	public void purchaseWeapon(int weaponCode, Lane lane) throws InsufficientResourcesException,
-	InvalidLaneException{ 
-		boolean flag = false;
-		PriorityQueue<Lane> pq = new PriorityQueue<Lane>();
-		while (!lanes.isEmpty()) {
-			Lane temp = lanes.remove();
-			if(lane == temp) {
-				flag = true;
-				pq.add(temp);
-				break;
-			}	
-			while (!pq.isEmpty())
-				lanes.add(pq.remove());
-			
-		}
-		if(!lane.isLaneLost() && flag==true) {
-			try {
-				lane.addWeapon(weaponFactory.buyWeapon(this.resourcesGathered,weaponCode).getWeapon());
-			}
-			catch (InsufficientResourcesException e) {
-				new InsufficientResourcesException(this.resourcesGathered);
-			}
-			
-		}
-		else 
-			throw new InvalidLaneException();
-			
-	}
+    InvalidLaneException{ 
+        boolean flag = false;
+        PriorityQueue<Lane> pq = new PriorityQueue<Lane>();
+        while (!lanes.isEmpty()) {
+            Lane temp = lanes.remove();
+            if(lane == temp) {
+                flag = true;
+                pq.add(temp);
+                break;
+            }
+            else
+                pq.add(temp);
+        }
+        while (!pq.isEmpty()) {
+            lanes.add(pq.remove());
+        }
+        if(!lane.isLaneLost() && flag==true) {
+            try {
+                lane.addWeapon(weaponFactory.buyWeapon(resourcesGathered,weaponCode).getWeapon());
+                if (resourcesGathered >= weaponFactory.getWeaponShop().get(weaponCode).getPrice() ){
+                    resourcesGathered = resourcesGathered - weaponFactory.getWeaponShop().get(weaponCode).getPrice();
+                }
+
+            }
+            catch (InsufficientResourcesException e) {
+                new InsufficientResourcesException(this.resourcesGathered);
+            }
+
+        }
+        else 
+            throw new InvalidLaneException();
+
+    }
 	public void passTurn()
 	{
 		moveTitans();
