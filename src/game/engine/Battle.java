@@ -149,7 +149,7 @@ public class Battle
 			this.getLanes().add(l);
 		}
 	}
-	public void refillApproachingTitans() { //wrong
+	public void refillApproachingTitans() { //wrong // maybe spawn titan
 		switch (this.getBattlePhase()) {
 		case EARLY: 
 			for(int i = 0;i<7; i++) {
@@ -215,7 +215,7 @@ public class Battle
 				}
 				lanes.peek().addTitan(approachingTitans.remove(j));
 				j++;
-			}
+		}
 		
 	}
 	private void moveTitans() {
