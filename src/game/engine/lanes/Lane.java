@@ -79,31 +79,21 @@ public class Lane implements Comparable<Lane>
 		int resources = 0;
 		while (!this.titans.isEmpty()) {
 			Titan peekTitan = this.titans.remove();
-			if (!this.isLaneLost() && !peekTitan.isDefeated()) {
-					resources += peekTitan.attack(this.getLaneWall());
-					pq.add(peekTitan);
+			if(peekTitan.hasReachedTarget()) {
+				resources += peekTitan.attack(this.laneWall);
 			}
+			pq.add(peekTitan);
+			
 		}
 		while (!pq.isEmpty()) {
 			titans.add(pq.remove());
 		}
 		return resources;
 	}
-	public int performLaneWeaponAttacks() {
-		PriorityQueue<Titan> pq = new PriorityQueue<Titan>();
+	public int performLaneWeaponsAttacks() {
 		int resources = 0;
-		if(!weapons.isEmpty()&& !this.isLaneLost()){
-			while (!titans.isEmpty()) {
-				Titan temp = titans.remove();
-				for(int i =0;i<weapons.size();i++) {
-					if (!temp.isDefeated())
-						resources += weapons.get(i).attack(temp);
-						pq.add(temp);
-				}
-			}
-		}
-		while (!pq.isEmpty()) {
-			this.getTitans().add(pq.remove());
+		for (int i = 0; i<weapons.size();i++) {
+			resources += weapons.get(i).turnAttack(titans);
 		}
 		return resources;
 	}
@@ -124,4 +114,5 @@ public class Lane implements Comparable<Lane>
 		this.setDangerLevel(updated);
 		
 	}
+
 }

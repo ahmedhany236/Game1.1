@@ -1,6 +1,7 @@
 package game.engine;
 
 import java.io.IOException;
+import java.nio.file.spi.FileSystemProvider;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.PriorityQueue;
@@ -155,14 +156,17 @@ public class Battle
 			for(int i = 0;i<7; i++) {
 				approachingTitans.add(i , titansArchives.get(PHASES_APPROACHING_TITANS[0][i]).spawnTitan(titanSpawnDistance));
 			}
+			break;
 		case INTENSE:
 			for(int i = 0;i<7; i++) {
 				approachingTitans.add(i , titansArchives.get(PHASES_APPROACHING_TITANS[1][i]).spawnTitan(titanSpawnDistance));
 			}
+			break;
 		case GRUMBLING:
 			for(int i = 0;i<7; i++) {
 				approachingTitans.add(i , titansArchives.get(PHASES_APPROACHING_TITANS[2][i]).spawnTitan(titanSpawnDistance));
 			}
+			break;
 		}
 	}
 	public void purchaseWeapon(int weaponCode, Lane lane) throws InsufficientResourcesException,
@@ -188,7 +192,7 @@ public class Battle
                 if (resourcesGathered >= weaponFactory.getWeaponShop().get(weaponCode).getPrice() ){
                     resourcesGathered = resourcesGathered - weaponFactory.getWeaponShop().get(weaponCode).getPrice();
                 }
-
+                performTurn();
             }
             catch (InsufficientResourcesException e) {
                 new InsufficientResourcesException(this.resourcesGathered);
@@ -197,30 +201,18 @@ public class Battle
         }
         else 
             throw new InvalidLaneException();
-
     }
 	public void passTurn()
 	{
-		moveTitans();
-		performWeaponsAttacks();
-		performTitansAttacks();
-		addTurnTitansToLane();
-		updateLanesDangerLevels();
-		finalizeTurns();
+		performTurn();
 	}
 	private void addTurnTitansToLane() { // j can't be 0 every time this method is called
 		int j = 0;
-
-		while (lanes.peek().isLaneLost()) {
-			lanes.remove();
-		}
 		for(int i=0;i< numberOfTitansPerTurn;i++ ) {
 				if(approachingTitans.isEmpty()) {
 					refillApproachingTitans();
-					j = 0;
 				}
-				lanes.peek().addTitan(approachingTitans.remove(j));
-				j++;
+				lanes.peek().addTitan(approachingTitans.remove(0));
 			}
 		
 	}
@@ -247,12 +239,14 @@ public class Battle
 	private int performWeaponsAttacks() {
 		PriorityQueue<Lane> pq = new PriorityQueue<Lane>();
 		int resources = 0;
+//		if (lanes.isEmpty())
+//			return 0;
 		while (!lanes.isEmpty()) {
 			Lane temp = lanes.remove();
 			if(!temp.isLaneLost()) {
-				resources += temp.performLaneWeaponAttacks();
-				pq.add(temp);
+				resources += temp.performLaneWeaponsAttacks();
 			}
+			pq.add(temp);	
 		}
 		score += resources;
 		resourcesGathered += resources;
@@ -268,8 +262,11 @@ public class Battle
 		int resources = 0;
 		while (!lanes.isEmpty()) {
 			Lane temp = lanes.remove();
+			int x = temp.performLaneTitansAttacks();
+			resources += x;
+//			System.out.println("curr: " + x);
+//			System.out.println("res: " +resources );
 			if(!temp.isLaneLost()) {
-				resources += temp.performLaneTitansAttacks();
 				pq.add(temp);
 			}
 		}
