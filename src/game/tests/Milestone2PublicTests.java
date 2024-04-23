@@ -2084,7 +2084,6 @@ public class Milestone2PublicTests {
 			
 			Method performTitansAttacksmethod=Class.forName(battlePath).getDeclaredMethod("performTitansAttacks",  null);
 			performTitansAttacksmethod.setAccessible(true);
-			
 			assertEquals("Incorrect resources gathered value from calling performTitansAttacks.In battle all active lane titans, that has reached the wall, should perfom their attack on their lane wall.", 
 					value, performTitansAttacksmethod.invoke(battle));
 
