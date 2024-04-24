@@ -1,5 +1,4 @@
 package game.engine.interfaces;
-import game.engine.base.Wall;
 public interface Attackee
 {
 	int getCurrentHealth();
