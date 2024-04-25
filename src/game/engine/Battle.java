@@ -13,9 +13,8 @@ import game.engine.titans.Titan;
 import game.engine.titans.TitanRegistry;
 import game.engine.weapons.factory.WeaponFactory;
 
-public class Battle
-{
-	//test
+public class Battle{
+
 	private static final int[][] PHASES_APPROACHING_TITANS =
 	{
 		{ 1, 1, 1, 2, 1, 3, 4 },
@@ -23,7 +22,6 @@ public class Battle
 		{ 4, 4, 4, 4, 4, 4, 4 } 
 	}; // order of the types of titans (codes) during each phase
 	private static final int WALL_BASE_HEALTH = 10000;
-
 	private int numberOfTurns;
 	private int resourcesGathered;
 	private BattlePhase battlePhase;
@@ -206,8 +204,7 @@ public class Battle
 	{
 		performTurn();
 	}
-	private void addTurnTitansToLane() { // j can't be 0 every time this method is called
-		int j = 0;
+	private void addTurnTitansToLane() {
 		for(int i=0;i< numberOfTitansPerTurn;i++ ) {
 				if(approachingTitans.isEmpty()) {
 					refillApproachingTitans();
@@ -239,8 +236,6 @@ public class Battle
 	private int performWeaponsAttacks() {
 		PriorityQueue<Lane> pq = new PriorityQueue<Lane>();
 		int resources = 0;
-//		if (lanes.isEmpty())
-//			return 0;
 		while (!lanes.isEmpty()) {
 			Lane temp = lanes.remove();
 			if(!temp.isLaneLost()) {
@@ -264,8 +259,6 @@ public class Battle
 			Lane temp = lanes.remove();
 			int x = temp.performLaneTitansAttacks();
 			resources += x;
-//			System.out.println("curr: " + x);
-//			System.out.println("res: " +resources );
 			if(!temp.isLaneLost()) {
 				pq.add(temp);
 			}
