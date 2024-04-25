@@ -72,7 +72,6 @@ public class Lane implements Comparable<Lane>
 		while (!pq.isEmpty()) {
 			titans.add(pq.remove());
 		}
-		
 	}
 	public int performLaneTitansAttacks() {
 		PriorityQueue<Titan> pq = new PriorityQueue<Titan>();
@@ -83,7 +82,6 @@ public class Lane implements Comparable<Lane>
 				resources += peekTitan.attack(this.laneWall);
 			}
 			pq.add(peekTitan);
-			
 		}
 		while (!pq.isEmpty()) {
 			titans.add(pq.remove());
@@ -112,7 +110,5 @@ public class Lane implements Comparable<Lane>
 			titans.add(pq.remove());
 		}
 		this.setDangerLevel(updated);
-		
 	}
-
 }

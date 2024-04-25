@@ -12,14 +12,6 @@ public class SniperCannon extends Weapon
 	{
 		super(baseDamage);
 	}
-//	public int turnAttack (PriorityQueue<Titan> laneTitans) {
-//		int resources = 0;
-//		if(!laneTitans.isEmpty()) 
-//			resources = this.attack(laneTitans.peek());
-//			if (laneTitans.peek().isDefeated())
-//				laneTitans.remove();
-//		return resources;
-//	}
 	public int turnAttack (PriorityQueue<Titan> laneTitans) {
 		int resources = 0;
 		while(!laneTitans.isEmpty() && laneTitans.peek()== null) {

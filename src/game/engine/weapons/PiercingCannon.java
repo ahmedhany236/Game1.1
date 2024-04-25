@@ -11,7 +11,7 @@ public class PiercingCannon extends Weapon
 	{
 		super(baseDamage);
 	}
-	public int turnAttack (PriorityQueue<Titan> laneTitans) { //probably must check if all five exist else does nothing 
+	public int turnAttack (PriorityQueue<Titan> laneTitans) { 
 		int resources = 0;
 		Titan temp;
 		PriorityQueue<Titan> tempqueue = new PriorityQueue<Titan>();

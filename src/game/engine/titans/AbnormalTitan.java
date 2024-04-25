@@ -11,7 +11,7 @@ public class AbnormalTitan extends Titan
 	{
 		super(baseHealth, baseDamage, heightInMeters, distanceFromBase, speed, resourcesValue, dangerLevel);
 	}
-		public int  attack(Attackee target) { //after first attack should check if is defeated
+		public int  attack(Attackee target) {
 			int temp = super.attack(target);
 			if (!target.isDefeated()) {
 				temp += super.attack(target);

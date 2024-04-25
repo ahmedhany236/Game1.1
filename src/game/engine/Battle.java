@@ -148,7 +148,7 @@ public class Battle{
 			this.getLanes().add(l);
 		}
 	}
-	public void refillApproachingTitans() { //wrong
+	public void refillApproachingTitans() {
 		switch (this.getBattlePhase()) {
 		case EARLY: 
 			for(int i = 0;i<7; i++) {
@@ -204,6 +204,7 @@ public class Battle{
 	{
 		performTurn();
 	}
+	
 	private void addTurnTitansToLane() {
 		for(int i=0;i< numberOfTitansPerTurn;i++ ) {
 				if(approachingTitans.isEmpty()) {
@@ -211,8 +212,8 @@ public class Battle{
 				}
 				lanes.peek().addTitan(approachingTitans.remove(0));
 			}
-		
 	}
+	
 	private void moveTitans() {
 		PriorityQueue<Lane> pq = new PriorityQueue<Lane>();
 		PriorityQueue<Titan> pqtitans = new PriorityQueue<Titan>();
@@ -231,8 +232,8 @@ public class Battle{
 		while(!pq.isEmpty()) {
 			lanes.add(pq.remove());
 		}
-		
 	}
+	
 	private int performWeaponsAttacks() {
 		PriorityQueue<Lane> pq = new PriorityQueue<Lane>();
 		int resources = 0;
@@ -249,7 +250,6 @@ public class Battle{
 			lanes.add(pq.remove());
 		}
 		return resources;
-		
 	}
 	
 	private int performTitansAttacks() {
@@ -268,6 +268,7 @@ public class Battle{
 		}
 		return resources;
 	}
+	
 	private void updateLanesDangerLevels() {
 		PriorityQueue<Lane> pq = new PriorityQueue<Lane>();
 		while (!lanes.isEmpty()) {
@@ -300,6 +301,7 @@ public class Battle{
 			}
 		}	
 	}
+	
 	private void performTurn() {
 		moveTitans();
 		performWeaponsAttacks();
@@ -307,8 +309,8 @@ public class Battle{
 		addTurnTitansToLane();
 		updateLanesDangerLevels();
 		finalizeTurns();
-		
 	}
+	
 	public boolean isGameOver() {
 		boolean flag = true;
 		PriorityQueue<Lane> pq = new PriorityQueue<Lane>();
@@ -323,10 +325,5 @@ public class Battle{
 		while (!pq.isEmpty())
 			lanes.add(pq.remove());
 		return flag;
-			
 	}
-	
-	
 }
-
-	
