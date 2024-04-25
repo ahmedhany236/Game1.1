@@ -14,6 +14,7 @@ import game.engine.titans.TitanRegistry;
 import game.engine.weapons.factory.WeaponFactory;
 
 public class Battle{
+	//test
 
 	private static final int[][] PHASES_APPROACHING_TITANS =
 	{
