@@ -6,7 +6,7 @@ import game.engine.titans.Titan;
 public class VolleySpreadCannon extends Weapon
 {
 	public static final int WEAPON_CODE = 3;
-
+	
 	private final int minRange;
 	private final int maxRange;
 
@@ -46,7 +46,5 @@ public class VolleySpreadCannon extends Weapon
 				}
 			}
 			return resources;
-	
 	}
-
 }

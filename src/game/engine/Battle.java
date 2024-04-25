@@ -13,9 +13,8 @@ import game.engine.titans.Titan;
 import game.engine.titans.TitanRegistry;
 import game.engine.weapons.factory.WeaponFactory;
 
-public class Battle
-{
-	//test
+public class Battle{
+
 	private static final int[][] PHASES_APPROACHING_TITANS =
 	{
 		{ 1, 1, 1, 2, 1, 3, 4 },
@@ -23,7 +22,6 @@ public class Battle
 		{ 4, 4, 4, 4, 4, 4, 4 } 
 	}; // order of the types of titans (codes) during each phase
 	private static final int WALL_BASE_HEALTH = 10000;
-
 	private int numberOfTurns;
 	private int resourcesGathered;
 	private BattlePhase battlePhase;
@@ -150,7 +148,7 @@ public class Battle
 			this.getLanes().add(l);
 		}
 	}
-	public void refillApproachingTitans() { //wrong
+	public void refillApproachingTitans() {
 		switch (this.getBattlePhase()) {
 		case EARLY: 
 			for(int i = 0;i<7; i++) {
@@ -206,16 +204,16 @@ public class Battle
 	{
 		performTurn();
 	}
-	private void addTurnTitansToLane() { // j can't be 0 every time this method is called
-		int j = 0;
+	
+	private void addTurnTitansToLane() {
 		for(int i=0;i< numberOfTitansPerTurn;i++ ) {
 				if(approachingTitans.isEmpty()) {
 					refillApproachingTitans();
 				}
 				lanes.peek().addTitan(approachingTitans.remove(0));
 			}
-		
 	}
+	
 	private void moveTitans() {
 		PriorityQueue<Lane> pq = new PriorityQueue<Lane>();
 		PriorityQueue<Titan> pqtitans = new PriorityQueue<Titan>();
@@ -234,13 +232,11 @@ public class Battle
 		while(!pq.isEmpty()) {
 			lanes.add(pq.remove());
 		}
-		
 	}
+	
 	private int performWeaponsAttacks() {
 		PriorityQueue<Lane> pq = new PriorityQueue<Lane>();
 		int resources = 0;
-//		if (lanes.isEmpty())
-//			return 0;
 		while (!lanes.isEmpty()) {
 			Lane temp = lanes.remove();
 			if(!temp.isLaneLost()) {
@@ -254,7 +250,6 @@ public class Battle
 			lanes.add(pq.remove());
 		}
 		return resources;
-		
 	}
 	
 	private int performTitansAttacks() {
@@ -264,8 +259,6 @@ public class Battle
 			Lane temp = lanes.remove();
 			int x = temp.performLaneTitansAttacks();
 			resources += x;
-//			System.out.println("curr: " + x);
-//			System.out.println("res: " +resources );
 			if(!temp.isLaneLost()) {
 				pq.add(temp);
 			}
@@ -275,6 +268,7 @@ public class Battle
 		}
 		return resources;
 	}
+	
 	private void updateLanesDangerLevels() {
 		PriorityQueue<Lane> pq = new PriorityQueue<Lane>();
 		while (!lanes.isEmpty()) {
@@ -307,6 +301,7 @@ public class Battle
 			}
 		}	
 	}
+	
 	private void performTurn() {
 		moveTitans();
 		performWeaponsAttacks();
@@ -314,8 +309,8 @@ public class Battle
 		addTurnTitansToLane();
 		updateLanesDangerLevels();
 		finalizeTurns();
-		
 	}
+	
 	public boolean isGameOver() {
 		boolean flag = true;
 		PriorityQueue<Lane> pq = new PriorityQueue<Lane>();
@@ -330,10 +325,5 @@ public class Battle
 		while (!pq.isEmpty())
 			lanes.add(pq.remove());
 		return flag;
-			
 	}
-	
-	
 }
-
-	

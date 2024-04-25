@@ -75,6 +75,4 @@ public class WeaponRegistry
 			default: return null;
 		}
 	}
-	
-
 }

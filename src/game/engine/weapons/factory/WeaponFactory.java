@@ -41,5 +41,4 @@ public class WeaponFactory
 			int maxRange) {
 		weaponShop.put(code, new WeaponRegistry(code , price,damage,name,minRange,maxRange));
 	}
-
 }
