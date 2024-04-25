@@ -14,10 +14,7 @@ public class SniperCannon extends Weapon
 	}
 	public int turnAttack (PriorityQueue<Titan> laneTitans) {
 		int resources = 0;
-		while(!laneTitans.isEmpty() && laneTitans.peek()== null) {
-			laneTitans.remove();
-		}
-		if(laneTitans.peek()!=null) {
+		if(laneTitans.peek()!= null && !laneTitans.peek().isDefeated()) {
 			resources = this.attack(laneTitans.peek());
 			if (laneTitans.peek().isDefeated())
 				laneTitans.remove();
