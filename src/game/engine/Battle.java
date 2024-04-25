@@ -143,7 +143,6 @@ public class Battle{
 		{
 			Wall w = new Wall(WALL_BASE_HEALTH);
 			Lane l = new Lane(w);
-
 			this.getOriginalLanes().add(l);
 			this.getLanes().add(l);
 		}
@@ -167,8 +166,7 @@ public class Battle{
 			break;
 		}
 	}
-	public void purchaseWeapon(int weaponCode, Lane lane) throws InsufficientResourcesException,
-    InvalidLaneException{ 
+	public void purchaseWeapon(int weaponCode, Lane lane) throws InsufficientResourcesException,InvalidLaneException{ 
         boolean flag = false;
         PriorityQueue<Lane> pq = new PriorityQueue<Lane>();
         while (!lanes.isEmpty()) {
