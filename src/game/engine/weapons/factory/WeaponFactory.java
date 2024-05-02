@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import game.engine.dataloader.DataLoader;
 import game.engine.exceptions.InsufficientResourcesException;
+import game.engine.weapons.Weapon;
 import game.engine.weapons.WeaponRegistry;
 
 public class WeaponFactory
@@ -21,23 +22,35 @@ public class WeaponFactory
 	{
 		return weaponShop;
 	}
-	public FactoryResponse buyWeapon(int resources, int weaponCode) throws InsufficientResourcesException{
-		HashMap<Integer, WeaponRegistry> temp = this.getWeaponShop();
-		if(resources>=temp.get(weaponCode).getPrice()) {
-			return new FactoryResponse(temp.get(weaponCode).buildWeapon(),(resources-temp.get(weaponCode).getPrice()));
-		}
-		else {
+
+	public FactoryResponse buyWeapon(int resources, int weaponCode) throws InsufficientResourcesException
+	{
+		WeaponRegistry registry = this.getWeaponShop().get(weaponCode);
+
+		if (resources < registry.getPrice())
+		{
 			throw new InsufficientResourcesException(resources);
 		}
-		
+
+		Weapon weapon = registry.buildWeapon();
+		int remainingResources = resources - registry.getPrice();
+
+		return new FactoryResponse(weapon, remainingResources);
 	}
-	public void addWeaponToShop(int code, int price) {
-		weaponShop.put(code, new WeaponRegistry(code , price));
+
+	public void addWeaponToShop(int code, int price)
+	{
+		this.getWeaponShop().put(code, new WeaponRegistry(code, price));
 	}
-	public void addWeaponToShop(int code, int price, int damage, String name) {
-		weaponShop.put(code, new WeaponRegistry(code , price,damage,name));
+
+	public void addWeaponToShop(int code, int price, int damage, String name)
+	{
+		this.getWeaponShop().put(code, new WeaponRegistry(code, price, damage, name));
 	}
-	public void addWeaponToShop(int code, int price, int damage, String name, int minRange,int maxRange) {
-		weaponShop.put(code, new WeaponRegistry(code , price,damage,name,minRange,maxRange));
+
+	public void addWeaponToShop(int code, int price, int damage, String name, int minRange, int maxRange)
+	{
+		this.getWeaponShop().put(code, new WeaponRegistry(code, price, damage, name, minRange, maxRange));
 	}
+
 }

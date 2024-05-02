@@ -14,10 +14,13 @@ public abstract class Weapon implements Attacker
 		super();
 		this.baseDamage = baseDamage;
 	}
+
+	@Override
 	public int getDamage()
 	{
 		return this.baseDamage;
 	}
-	
+
 	public abstract int turnAttack(PriorityQueue<Titan> laneTitans);
+
 }

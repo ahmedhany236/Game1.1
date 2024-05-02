@@ -1,6 +1,5 @@
 package game.engine.weapons;
 
-
 public class WeaponRegistry
 {
 	private final int code;
@@ -66,13 +65,22 @@ public class WeaponRegistry
 	{
 		return maxRange;
 	}
-	public Weapon buildWeapon(){
-		switch (this.getCode()){
-			case 1: return new PiercingCannon(damage);
-			case 2: return new SniperCannon(damage);
-			case 3: return new VolleySpreadCannon(damage,minRange,maxRange);
-			case 4: return new WallTrap(damage);
-			default: return null;
+
+	public Weapon buildWeapon()
+	{
+		switch (this.getCode())
+		{
+		case PiercingCannon.WEAPON_CODE:
+			return new PiercingCannon(this.getDamage());
+		case SniperCannon.WEAPON_CODE:
+			return new SniperCannon(this.getDamage());
+		case VolleySpreadCannon.WEAPON_CODE:
+			return new VolleySpreadCannon(this.getDamage(), this.getMinRange(), this.getMaxRange());
+		case WallTrap.WEAPON_CODE:
+			return new WallTrap(this.getDamage());
+		default:
+			return null;
 		}
 	}
+
 }
