@@ -1,12 +1,14 @@
 package game.engine.weapons;
 
+import java.util.ArrayList;
 import java.util.PriorityQueue;
+
 import game.engine.titans.Titan;
 
 public class VolleySpreadCannon extends Weapon
 {
 	public static final int WEAPON_CODE = 3;
-	
+
 	private final int minRange;
 	private final int maxRange;
 
@@ -26,25 +28,30 @@ public class VolleySpreadCannon extends Weapon
 	{
 		return maxRange;
 	}
-	public int turnAttack (PriorityQueue<Titan> laneTitans) {
-		int resources = 0;
-		Titan temp;
-		PriorityQueue<Titan> tempqueue = new PriorityQueue<Titan>();
-		while(!laneTitans.isEmpty()) {
-			temp = laneTitans.remove();
-			if (temp.getDistance()<=this.getMaxRange() && temp.getDistance()>=this.getMinRange()) {
-				resources += this.attack(temp);
+
+	@Override
+	public int turnAttack(PriorityQueue<Titan> laneTitans)
+	{
+		ArrayList<Titan> tmp = new ArrayList<>();
+		int attackRes = 0;
+
+		while (!laneTitans.isEmpty() && laneTitans.peek().getDistance() <= this.getMaxRange())
+		{
+			Titan nextTitan = laneTitans.poll();
+			if (nextTitan.getDistance() >= getMinRange())
+			{
+				attackRes += this.attack(nextTitan);
 			}
-			tempqueue.add(temp);
+
+			if (!nextTitan.isDefeated())
+			{
+				tmp.add(nextTitan);
+			}
 		}
-		while(!tempqueue.isEmpty()) {
-				if (tempqueue.peek().isDefeated()) {
-					tempqueue.remove();
-				}
-				else {
-					laneTitans.add(tempqueue.remove());
-				}
-			}
-			return resources;
+
+		laneTitans.addAll(tmp);
+
+		return attackRes;
 	}
+
 }
